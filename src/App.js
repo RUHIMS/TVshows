@@ -1,26 +1,52 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {connect} from 'react-redux';
+import {inc,dec} from "./action"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Counter extends React.Component{
+constructor(props){
+  super(props);
+  this.state={
+    count:0
+  }
 }
 
-export default App;
+inc=()=>{
+  this.props.inc()
+}
+dec=()=>{
+  this.props.dec();
+}
+reset=()=>{
+  this.props.dispatch({type:"RESET"})
+}
+render(){
+  return(
+<div>
+  <span>
+  <button onClick={this.inc}>+</button>
+  <span>{this.props.count}</span>
+  <button onClick={this.dec}>-</button>
+
+  </span>
+  <button onClick={this.reset}>RESET</button>
+
+
+</div>
+
+  )
+
+  }
+
+  
+}
+const mapStateToProps=(state)=>{
+  console.log(state)
+return {count:state.count}
+}
+
+const mapDispatchToProps={
+inc,
+dec
+
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Counter)
